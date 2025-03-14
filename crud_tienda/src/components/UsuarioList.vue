@@ -62,7 +62,7 @@ export default{
         const seleccionarUsuario=(id)=>{
             usuarioSeleccionado.value = id;
             //Lanzamos el evento
-            emit('usuario-seleccionado', usuarioSeleccionado);
+            emit('usuario-seleccionado', id);
         }
         onMounted(cargarUsuarios); //Se ejecuta la función al montar el componente
         return{
@@ -70,6 +70,7 @@ export default{
             nombre,
             email,
             usuarioId,
+            usuarioSeleccionado,
             guardarUsuario,
             editarUsuario,
             eliminarUsuario,

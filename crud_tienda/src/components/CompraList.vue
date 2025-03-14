@@ -1,13 +1,14 @@
 <script>
 import api from '../api'
-import { ref, onMounted, defineEmits, toRaw, toRefs } from 'vue'
+import { ref, onMounted, toRefs } from 'vue'
 
 export default {
+    emits: ['prenda-seleccionada', 'update:usuarioSeleccionado', 'update:prendaSeleccionada'],
     props: {
         usuarioSeleccionado: Number,
         prendaSeleccionada: Number
     },
-    setup(props) {
+    setup(props, emit) {
         const compras = ref([]);
         const fecha = ref("");
         const compraEditando = ref(null);
@@ -18,31 +19,31 @@ export default {
         // Variables locales para usuario y prenda seleccionados
         //se usa props porque son variables que vienen de otro componente
         const { usuarioSeleccionado: usuarioId, prendaSeleccionada: prendaId } = toRefs(props);
-        
+
         const cargarCompras = async () => {
             const response = await api.get('/compras');
             compras.value = response.data;
         };
 
-        const agregarCompra = async () => {                        
+        const agregarCompra = async () => {
             console.log("Antes de enviar:", {
-        usuarioId: usuarioId.value,
-        prendaId: prendaId.value,
-        fecha: fecha.value
-    });
-    
-    if (!usuarioId.value || !prendaId.value || !fecha.value) {
-        alert("Debe seleccionar un usuario, una prenda y una fecha.");
-        return;
-    }
-    
-  
+                usuarioId: usuarioId.value,
+                prendaId: prendaId.value,
+                fecha: fecha.value
+            });
 
-const datosCompra = {
-    usuarioId: Number(toRaw(usuarioId).value),
-    prendaId: Number(toRaw(prendaId).value),
-    fecha: String(fecha.value)
-};
+            if (!usuarioId.value || !prendaId.value || !fecha.value) {
+                alert("Debe seleccionar un usuario, una prenda y una fecha.");
+                return;
+            }
+
+
+
+            const datosCompra = {
+                usuarioId: Number(usuarioId.value),
+                prendaId: Number(prendaId.value),
+                fecha: String(fecha.value)
+            };
             console.log(datosCompra);
             if (compraEditando.value) {
                 // Actualizar compra existente
@@ -50,7 +51,7 @@ const datosCompra = {
                 compraEditando.value = null;
             } else {
                 // Agregar nueva compra
-                let response = await api.post('/compras', datosCompra);                
+                let response = await api.post('/compras', datosCompra);
                 console.log(response.data);
             }
 
@@ -73,9 +74,7 @@ const datosCompra = {
             prendaIdEdicion.value = compra.prendaId;
             emit('update:usuarioSeleccionado', compra.usuarioId);
             emit('update:prendaSeleccionada', compra.prendaId);
-        };
-
-        const emit = defineEmits(['update:usuarioSeleccionado', 'update:prendaSeleccionada']);
+        };        
 
         onMounted(cargarCompras);
 
@@ -118,7 +117,7 @@ const datosCompra = {
             <div class="col-6">
                 <table class="table">
                     <thead>
-                        <tr>                            
+                        <tr>
                             <th>Usuario ID</th>
                             <th>Prenda ID</th>
                             <th>Fecha</th>
@@ -126,7 +125,7 @@ const datosCompra = {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="compra in compras" :key="compra.id">                            
+                        <tr v-for="compra in compras" :key="compra.id">
                             <td>{{ compra.usuarioId }}</td>
                             <td>{{ compra.prendaId }}</td>
                             <td>{{ compra.fecha }}</td>

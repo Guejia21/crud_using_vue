@@ -62,7 +62,7 @@ export default{
         const seleccionarPrenda=(id)=>{
             prendaSeleccionada.value = id;
             //Lanzamos el evento
-            emit('prenda-seleccionada', prendaSeleccionada);
+            emit('prenda-seleccionada', id);
         }
         onMounted(cargarPrendas); //Se ejecuta la función al montar el componente
         return{
@@ -71,6 +71,7 @@ export default{
             precio,
             prendaId,
             guardarPrendas,
+            prendaSeleccionada,
             editarPrenda,                        
             eliminarPrenda,
             seleccionarPrenda
