@@ -16,17 +16,28 @@ router.get("/", (req, res) => {
 
 // Crear una compra
 router.post("/", (req, res) => {
-    const {userId,prendaId, fecha } = req.body;
-    db.run("INSERT INTO Compra (usuario_id,prenda_id,fecha) VALUES (?, ?, ?)", [userId, prendaId,fecha], function (err) {
+    const {usuarioId,prendaId, fecha } = req.body;
+    db.run("INSERT INTO Compra (usuario_id,prenda_id,fecha) VALUES (?, ?, ?)", [usuarioId, prendaId,fecha], function (err) {
         if (err) {
             res.status(500).json({ error: err.message });
             return;
         }
-        res.json({ id: this.lastID, usuario_id, prenda_id, fecha });
+        res.json({ id: this.lastID, usuarioId, prendaId, fecha });
     });
 });
 
-
+// Actualizar una compra
+router.put("/:id", (req, res) => {
+    const { id } = req.params;
+    const { usuarioId, prendaId,fecha } = req.body;
+    db.run("UPDATE Compra SET usuario_id = ?, prenda_id = ?, fecha = ? WHERE id = ?", [usuarioId, prendaId, fecha], function (err) {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json({ message: "Compra actualizado correctamente" });
+    });
+});
 // Eliminar un compra
 router.delete("/:id", (req, res) => {
     const { id } = req.params;
