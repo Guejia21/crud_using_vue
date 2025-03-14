@@ -1,6 +1,6 @@
 <script>
 import api from '../api'
-import { ref, onMounted, computed,defineEmits, toRaw } from 'vue'
+import { ref, onMounted, defineEmits, toRaw, toRefs } from 'vue'
 
 export default {
     props: {
@@ -17,8 +17,8 @@ export default {
 
         // Variables locales para usuario y prenda seleccionados
         //se usa props porque son variables que vienen de otro componente
-        const usuarioId = computed(() => props.usuarioSeleccionado);
-        const prendaId = computed(() => props.prendaSeleccionada);
+        const { usuarioSeleccionado: usuarioId, prendaSeleccionada: prendaId } = toRefs(props);
+        
         const cargarCompras = async () => {
             const response = await api.get('/compras');
             compras.value = response.data;
