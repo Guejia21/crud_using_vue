@@ -13,7 +13,18 @@ router.get("/", (req, res) => {
         res.json(rows);
     });
 });
-
+// Actualizar una prenda
+router.put("/:id", (req, res) => {
+    const { id } = req.params;
+    const { nombre, precio } = req.body;
+    db.run("UPDATE Prenda SET nombre = ?, precio = ? WHERE id = ?", [nombre, precio, id], function (err) {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json({ message: "Prenda actualizada correctamente" });
+    });
+});
 // Crear una prenda
 router.post("/", (req, res) => {
     const { nombre, precio } = req.body;
