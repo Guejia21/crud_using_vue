@@ -112,8 +112,8 @@ export default {
                 <table class="table">
                     <thead class="table-light">
                         <tr>
-                            <th>Usuario ID</th>
-                            <th>Prenda ID</th>
+                            <th>Usuario</th>
+                            <th>Prenda</th>
                             <th>Fecha</th>
                             <th>Acciones</th>
                         </tr>

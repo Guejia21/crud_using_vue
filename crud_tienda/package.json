@@ -3,13 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "start": "node server/server.js",
+    "dev": "concurrently \"node ./server/server.js\" \"npm run frontend\"",
+    "backend": "server.js",
+    "frontend": "vue-cli-service serve"
   },
   "dependencies": {
     "axios": "^1.8.3",
+    "concurrently": "^9.1.2",
     "core-js": "^3.8.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9",
+    "sqlite3": "^5.1.7",
     "vue": "^3.2.13"
   },
   "devDependencies": {
